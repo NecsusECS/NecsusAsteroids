@@ -1,8 +1,8 @@
-import necsus, sdl2util, sdl2, systems/[sdl2events]
+import necsus, sdl2util, sdl2, textures, systems/[sdl2events, ship, physics, render]
 
-proc asteroids(screenSize: ScreenSize, renderer: RendererPtr) {.necsus(
-    [],
-    [~emitEvents, ~exiter],
+proc asteroids(screenSize: ScreenSize, renderer: RendererPtr, textures: Textures) {.necsus(
+    [~spawnShip],
+    [~emitEvents, ~exiter, ~simulatePhysics, ~edgeWrap, ~renderer],
     [],
     newNecsusConf()
 ).}
@@ -10,4 +10,5 @@ proc asteroids(screenSize: ScreenSize, renderer: RendererPtr) {.necsus(
 let screenSize = (width: 640, height: 480)
 
 initialize(screenSize, window, renderer):
-    asteroids(screenSize, renderer)
+    let textures = renderer.newTextures()
+    asteroids(screenSize, renderer, textures)
