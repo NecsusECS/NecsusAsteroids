@@ -1,16 +1,16 @@
-import sdl2, necsus, ../components/inputEvents
+import sdl2, necsus
 
-proc emitEvents*(sendInput: Outbox[InputEvent], sendExit: Outbox[ExitEvent]) =
+proc emitEvents*(
+    sendInput: Outbox[KeyboardEventObj],
+    exit: var Shared[NecsusRun]
+) =
     ## Reads SDL2 events and emits them as ECS events
     var event = defaultEvent
     while pollEvent(event):
         case event.kind
         of QuitEvent:
-            sendExit(ExitEvent())
+            exit.set(ExitLoop)
+        of KeyUp, KeyDown:
+            sendInput(event.key[])
         else:
             discard
-
-proc exiter*(event: Inbox[ExitEvent], exit: var Shared[NecsusRun]) =
-    ## Exits the app
-    for _ in event:
-        exit.set(ExitLoop)

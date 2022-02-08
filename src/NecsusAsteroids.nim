@@ -2,7 +2,7 @@ import necsus, sdl2util, sdl2, textures, systems/[sdl2events, ship, physics, ren
 
 proc asteroids(screenSize: ScreenSize, renderer: RendererPtr, textures: Textures) {.necsus(
     [~spawnShip],
-    [~emitEvents, ~exiter, ~simulatePhysics, ~edgeWrap, ~renderer],
+    [~emitEvents, ~rotateShip, ~accelerateShip, ~simulatePhysics, ~edgeWrap, ~renderer],
     [],
     newNecsusConf()
 ).}
