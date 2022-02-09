@@ -33,3 +33,8 @@ proc edgeWrap*(
         let (position, _) = comps
         if position.y notin validRange(screen.get.height) or position.x notin validRange(screen.get.width):
             eid.delete()
+
+proc rotation*(dt: TimeDelta, query: Query[(ptr Position, Rotating)]) =
+    ## Applies rotation to an element
+    for (pos, rotation) in query:
+        pos.angle += rotation.rotateSpeed * dt

@@ -4,6 +4,7 @@ type
     TextureType* = enum
         ## The various kinds of textures supported
         ShipTexture
+        AsteroidTexture
 
     TextureData* = object
         texture*: TexturePtr
@@ -23,6 +24,7 @@ proc readTexture(renderer: RendererPtr, filename: static string): TextureData =
 proc newTextures*(renderer: RendererPtr): Textures =
     ## Initializes all the textures used by the game
     result.textures[ShipTexture] = renderer.readTexture("ship.png")
+    result.textures[AsteroidTexture] = renderer.readTexture("asteroid1.png")
 
 proc `[]`*(textures: Textures, key: TextureType): lent TextureData =
     ## Read a texture

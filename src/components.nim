@@ -7,6 +7,13 @@ type
     Bullet* = object
         ## Marker component that represents a bullet
 
+    Asteroid* = object
+        ## Marker component that represents an asteroid
+
+    Rotating* = object
+        ## Rotates a sprite
+        rotateSpeed*: float
+
     Position* = object
         ## Position of an element
         x*, y*, angle*: float
