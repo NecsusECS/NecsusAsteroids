@@ -4,6 +4,9 @@ type
     Ship* = object
         ## Marker component that represents the ship
 
+    Bullet* = object
+        ## Marker component that represents a bullet
+
     Position* = object
         ## Position of an element
         x*, y*, angle*: float
@@ -15,6 +18,14 @@ type
     Sprite* = object
         ## A renderable sprite
         texture*: TextureType
+
+    ShapeKind* = enum Circle
+
+    Shape* = object
+        ## Allows rendering of an arbitrary shape
+        case kind*: ShapeKind
+        of Circle:
+            radius*: float
 
     EdgeWrap* = object
         ## Indicates that an entity should wrap to the other side of

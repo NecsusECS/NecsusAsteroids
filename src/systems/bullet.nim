@@ -1,0 +1,31 @@
+import necsus, sdl2, ../components, math
+
+const BULLET_SPEED = 700.0
+
+const BULLET_DELAY = 0.2
+
+proc shoot*(
+    inputs: Inbox[KeyboardEventObj],
+    ship: Query[(Ship, Position)],
+    spawn: Spawn[(Bullet, Position, Velocity, Shape)],
+    time: TimeElapsed,
+    lastShot: var Local[float]
+) =
+    ## Create a bullet when the spacebar is pressed
+    template spawnBullet(start: Position) =
+        lastShot.set(time)
+        discard spawn((
+            Bullet(),
+            start,
+            Velocity(
+                dx: BULLET_SPEED * sin(start.angle.degToRad),
+                dy: BULLET_SPEED * cos(start.angle.degToRad) * -1
+            ),
+            Shape(kind: Circle, radius: 5.0)
+        ))
+
+    for input in inputs:
+        if input.kind == KeyDown and input.keysym.scancode == SDL_SCANCODE_SPACE:
+            if time - lastShot.get(-BULLET_SPEED) > BULLET_DELAY:
+                for (_, spawnPosition) in ship:
+                    spawnBullet(spawnPosition)

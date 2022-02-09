@@ -1,4 +1,4 @@
-import necsus, ../components, ../sdl2util
+import necsus, ../components, ../sdl2util, options
 
 proc simulatePhysics*(dt: TimeDelta, query: Query[(ptr Position, Velocity)]) =
     ## Executes primitive physics simulation
@@ -12,12 +12,24 @@ proc wrap(value: float, maximum: int): float =
     if value < -WRAP_MARGIN:
         maximum.float + WRAP_MARGIN
     elif value > maximum.float + WRAP_MARGIN:
-        WRAP_MARGIN
+        -WRAP_MARGIN
     else:
         value
 
-proc edgeWrap*(query: Query[(ptr Position, EdgeWrap)], screen: Shared[ScreenSize],) =
+proc validRange(maximum: int): auto = -WRAP_MARGIN..(maximum.float + WRAP_MARGIN)
+
+proc edgeWrap*(
+    wrapping: Query[(ptr Position, EdgeWrap)],
+    nonWrapping: Query[(Position, Not[EdgeWrap])],
+    screen: Shared[ScreenSize],
+    delete: Delete
+) =
     ## Checks if any entities have moved off screen and wraps them to the other side of the screen if they have
-    for (position, _) in query:
+    for (position, shouldWrap) in wrapping:
         position.y = wrap(position.y, screen.get.height)
         position.x = wrap(position.x, screen.get.width)
+
+    for eid, comps in nonWrapping:
+        let (position, _) = comps
+        if position.y notin validRange(screen.get.height) or position.x notin validRange(screen.get.width):
+            eid.delete()
