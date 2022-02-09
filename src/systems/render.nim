@@ -22,7 +22,7 @@ proc renderer*(
 
     for (shape, pos) in shapes:
         case shape.kind
-        of Circle:
+        of ShapeKind.Circle:
             renderer.get.circleRGBA(pos.x.int16, pos.y.int16, shape.radius.int16, 255, 255, 255, 255)
 
     renderer.get.present()

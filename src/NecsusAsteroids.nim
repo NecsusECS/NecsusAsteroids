@@ -1,8 +1,21 @@
-import necsus, sdl2util, sdl2, textures, systems/[sdl2events, ship, physics, render, bullet, asteroids]
+import necsus, sdl2util, sdl2, textures, systems/[sdl2events, ship, physics, render, bullet, asteroids, collision]
 
 proc asteroids(screenSize: ScreenSize, renderer: RendererPtr, textures: Textures) {.necsus(
     [~spawnShip, ~spawnAsteroids],
-    [~emitEvents, ~rotateShip, ~accelerateShip, ~rotation, ~shoot, ~simulatePhysics, ~edgeWrap, ~renderer],
+    [
+        ~emitEvents,
+        ~rotateShip,
+        ~accelerateShip,
+        ~rotation,
+        ~shoot,
+        ~markCollisions,
+        ~resolveAsteroidCollisions,
+        ~resolveShipCollisions,
+        ~resolveBulletCollisions,
+        ~simulatePhysics,
+        ~edgeWrap,
+        ~renderer
+    ],
     [],
     newNecsusConf()
 ).}

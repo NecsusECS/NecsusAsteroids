@@ -1,5 +1,7 @@
 import necsus, ../components, ../sdl2util, ../textures, random, math
 
+type AsteroidComponents = (Asteroid, Position, Bounds, Velocity, Sprite, EdgeWrap, Rotating)
+
 proc sqrDistance(a, b: Position): float =
     ## Calculate the squared distance between two positions
     pow(b.x - a.x, 2) + pow(b.y - a.y, 2)
@@ -15,22 +17,36 @@ proc randomVelocity(): auto =
     if sample({true, false}):
         result *= -1
 
-proc spawnAsteroids*(
-    spawn: Spawn[(Asteroid, Position, Velocity, Sprite, EdgeWrap, Rotating)],
-    screen: Shared[ScreenSize]
-) =
+proc createAsteroid(position: Position, texture: TextureType, radius: float, splits: int): AsteroidComponents =
+    (
+        Asteroid(remainingSplits: splits),
+        position,
+        Bounds(kind: BoundsKind.Circle, radius: radius),
+        Velocity(dx: randomVelocity(), dy: randomVelocity()),
+        Sprite(texture: texture),
+        EdgeWrap(),
+        Rotating(rotateSpeed: rand(-100.0..100.0)),
+    )
+
+proc spawnAsteroids*(spawn: Spawn[AsteroidComponents], screen: Shared[ScreenSize]) =
     ## Initializes an asteroid
     randomize()
 
     let center = Position(x: screen.get.width / 2, y: screen.get.height / 2)
 
     for i in 0..5:
+        discard spawn(createAsteroid(pickStartPosition(center, screen.get), AsteroidTexture, 40.0, 1))
 
-        discard spawn((
-            Asteroid(),
-            pickStartPosition(center, screen.get),
-            Velocity(dx: randomVelocity(), dy: randomVelocity()),
-            Sprite(texture: AsteroidTexture),
-            EdgeWrap(),
-            Rotating(rotateSpeed: rand(-100.0..100.0)),
-        ))
+proc resolveAsteroidCollisions*(
+    collisions: Query[(Collided, Asteroid, Position)],
+    delete: Delete,
+    spawn: Spawn[AsteroidComponents],
+    screen: Shared[ScreenSize]
+) =
+    ## Responds to an asteroid colliding
+    for eid, comps in collisions:
+        let (_, asteroid, pos) = comps
+        if asteroid.remainingSplits > 0:
+            for _ in 0..1:
+                discard spawn(createAsteroid(pos, SmallAsteroidTexture, 20.0, asteroid.remainingSplits - 1))
+        eid.delete()

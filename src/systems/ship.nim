@@ -87,3 +87,6 @@ proc accelerateShip*(
             if speed > MAX_SPEED:
                 vel.dx *= MAX_SPEED / speed
                 vel.dy *= MAX_SPEED / speed
+
+proc resolveShipCollisions*() =
+    discard

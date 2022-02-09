@@ -5,6 +5,7 @@ type
         ## The various kinds of textures supported
         ShipTexture
         AsteroidTexture
+        SmallAsteroidTexture
 
     TextureData* = object
         texture*: TexturePtr
@@ -25,6 +26,7 @@ proc newTextures*(renderer: RendererPtr): Textures =
     ## Initializes all the textures used by the game
     result.textures[ShipTexture] = renderer.readTexture("ship.png")
     result.textures[AsteroidTexture] = renderer.readTexture("asteroid1.png")
+    result.textures[SmallAsteroidTexture] = renderer.readTexture("asteroid2.png")
 
 proc `[]`*(textures: Textures, key: TextureType): lent TextureData =
     ## Read a texture
