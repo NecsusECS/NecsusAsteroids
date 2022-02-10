@@ -1,4 +1,4 @@
-import necsus, sdl2, ../components, math
+import necsus, sdl2, ../components, vmath
 
 const BULLET_SPEED = 700.0
 
@@ -17,10 +17,7 @@ proc shoot*(
         discard spawn((
             Bullet(),
             start,
-            Velocity(
-                dx: BULLET_SPEED * sin(start.angle.degToRad),
-                dy: BULLET_SPEED * cos(start.angle.degToRad) * -1
-            ),
+            Velocity(speed: start.angleVector * BULLET_SPEED),
             Shape(kind: Circle, radius: 5.0),
             Bounds(kind: BoundsKind.Circle, radius: 4.0),
         ))

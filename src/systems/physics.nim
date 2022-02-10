@@ -1,10 +1,9 @@
-import necsus, ../components, ../sdl2util, options
+import necsus, ../components, ../sdl2util, options, vmath
 
 proc simulatePhysics*(dt: TimeDelta, query: Query[(ptr Position, Velocity)]) =
     ## Executes primitive physics simulation
     for (position, velocity) in query:
-        position.x += velocity.dx * dt
-        position.y += velocity.dy * dt
+        position.center += velocity.speed * dt
 
 const WRAP_MARGIN = 20.0
 
@@ -26,12 +25,12 @@ proc edgeWrap*(
 ) =
     ## Checks if any entities have moved off screen and wraps them to the other side of the screen if they have
     for (position, shouldWrap) in wrapping:
-        position.y = wrap(position.y, screen.get.height)
-        position.x = wrap(position.x, screen.get.width)
+        position.center.x = wrap(position.center.x, screen.get.width)
+        position.center.y = wrap(position.center.y, screen.get.height)
 
     for eid, comps in nonWrapping:
-        let (position, _) = comps
-        if position.y notin validRange(screen.get.height) or position.x notin validRange(screen.get.width):
+        let (pos, _) = comps
+        if pos.center.y notin validRange(screen.get.height) or pos.center.x notin validRange(screen.get.width):
             eid.delete()
 
 proc rotation*(dt: TimeDelta, query: Query[(ptr Position, Rotating)]) =

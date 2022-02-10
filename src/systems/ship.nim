@@ -1,10 +1,10 @@
-import necsus, sdl2, math, ../components, ../sdl2util, ../textures
+import necsus, sdl2, math, ../components, ../sdl2util, ../textures, vmath
 
 proc spawnShip*(spawn: Spawn[(Ship, Position, Velocity, Sprite, EdgeWrap)], screen: Shared[ScreenSize]) =
     ## Initializes the ship
     discard spawn((
         Ship(),
-        Position(x: screen.get.width / 2, y: screen.get.height / 2),
+        Position(center: vec2(screen.get.width / 2, screen.get.height / 2)),
         Velocity(),
         Sprite(texture: ShipTexture),
         EdgeWrap()
@@ -79,14 +79,12 @@ proc accelerateShip*(
 
     if isAccelerating.get(false):
         for (_, pos, vel) in ship:
-            vel.dx += dt * ACCELERATION * sin(pos.angle.degToRad)
-            vel.dy -= dt * ACCELERATION * cos(pos.angle.degToRad)
+            vel.speed += pos.angleVector * (dt * ACCELERATION)
 
             # Cap out the max speed
-            let speed = sqrt(pow(vel.dx, 2) + pow(vel.dy, 2))
+            let speed = vel.speed.length
             if speed > MAX_SPEED:
-                vel.dx *= MAX_SPEED / speed
-                vel.dy *= MAX_SPEED / speed
+                vel.speed *= MAX_SPEED / speed
 
 proc resolveShipCollisions*() =
     discard

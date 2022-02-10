@@ -1,4 +1,4 @@
-import textures
+import textures, vmath
 
 type
     Ship* = object
@@ -17,11 +17,12 @@ type
 
     Position* = object
         ## Position of an element
-        x*, y*, angle*: float
+        center*: Vec2
+        angle*: float
 
     Velocity* = object
         ## The speed of movement of an object
-        dx*, dy*: float
+        speed*: Vec2
 
     Sprite* = object
         ## A renderable sprite
@@ -51,3 +52,7 @@ type
 
     Collided* = object
         ## Marks that a collision happened
+
+proc angleVector*(position: Position): Vec2 =
+    ## Produces a vector representing the angle of a given position
+    dir((position.angle - 90).toRadians.float32)

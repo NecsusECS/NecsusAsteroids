@@ -1,15 +1,14 @@
-import necsus, ../components, ../sdl2util, ../textures, random, math
+import necsus, ../components, ../sdl2util, ../textures, random, vmath
 
 type AsteroidComponents = (Asteroid, Position, Bounds, Velocity, Sprite, EdgeWrap, Rotating)
 
-proc sqrDistance(a, b: Position): float =
-    ## Calculate the squared distance between two positions
-    pow(b.x - a.x, 2) + pow(b.y - a.y, 2)
-
-proc pickStartPosition(center: Position, screen: ScreenSize): Position =
+proc pickStartPosition(center: Vec2, screen: ScreenSize): Position =
     ## Pick a starting position that is not going to overlap with the ship
-    let picked = Position(x: rand(0.0..screen.width.float), y: rand(0.0..screen.height.float), angle: rand(0.0..360.0))
-    return if sqrDistance(center, picked) < 1000: pickStartPosition(center, screen) else: picked
+    let picked = vec2(rand(0.0..screen.width.float), rand(0.0..screen.height.float))
+    if distSq(center, picked) < 1000:
+        return pickStartPosition(center, screen)
+    else:
+        return Position(center: picked, angle: rand(0.0..360.0))
 
 proc randomVelocity(): auto =
     ## Picks a random velocity for an asteroid
@@ -22,7 +21,7 @@ proc createAsteroid(position: Position, texture: TextureType, radius: float, spl
         Asteroid(remainingSplits: splits),
         position,
         Bounds(kind: BoundsKind.Circle, radius: radius),
-        Velocity(dx: randomVelocity(), dy: randomVelocity()),
+        Velocity(speed: vec2(randomVelocity(), randomVelocity())),
         Sprite(texture: texture),
         EdgeWrap(),
         Rotating(rotateSpeed: rand(-100.0..100.0)),
@@ -32,7 +31,7 @@ proc spawnAsteroids*(spawn: Spawn[AsteroidComponents], screen: Shared[ScreenSize
     ## Initializes an asteroid
     randomize()
 
-    let center = Position(x: screen.get.width / 2, y: screen.get.height / 2)
+    let center = vec2(screen.get.width / 2, screen.get.height / 2)
 
     for i in 0..5:
         discard spawn(createAsteroid(pickStartPosition(center, screen.get), AsteroidTexture, 40.0, 1))
