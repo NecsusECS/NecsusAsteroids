@@ -11,6 +11,10 @@ type
         ## Marker component that represents an asteroid
         remainingSplits*: int
 
+    Explosion* = object
+        ## Marks a particle in an explosion
+        ttl*: float
+
     Rotating* = object
         ## Rotates a sprite
         rotateSpeed*: float
@@ -28,13 +32,15 @@ type
         ## A renderable sprite
         texture*: TextureType
 
-    ShapeKind* {.pure.} = enum Circle
+    ShapeKind* {.pure.} = enum Circle, Point
 
     Shape* = object
         ## Allows rendering of an arbitrary shape
         case kind*: ShapeKind
         of ShapeKind.Circle:
             radius*: float
+        of ShapeKind.Point:
+            discard
 
     EdgeWrap* = object
         ## Indicates that an entity should wrap to the other side of

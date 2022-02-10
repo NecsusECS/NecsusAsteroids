@@ -1,4 +1,4 @@
-import necsus, ../components, ../sdl2util, ../textures, random, vmath
+import necsus, ../components, ../sdl2util, ../textures, random, vmath, explosion
 
 type AsteroidComponents = (Asteroid, Position, Bounds, Velocity, Sprite, EdgeWrap, Rotating)
 
@@ -40,11 +40,13 @@ proc resolveAsteroidCollisions*(
     collisions: Query[(Collided, Asteroid, Position)],
     delete: Delete,
     spawn: Spawn[AsteroidComponents],
-    screen: Shared[ScreenSize]
+    screen: Shared[ScreenSize],
+    explode: Outbox[TriggerExplosion],
 ) =
     ## Responds to an asteroid colliding
     for eid, comps in collisions:
         let (_, asteroid, pos) = comps
+        explode(pos.center)
         if asteroid.remainingSplits > 0:
             for _ in 0..1:
                 discard spawn(createAsteroid(pos, SmallAsteroidTexture, 15.0, asteroid.remainingSplits - 1))

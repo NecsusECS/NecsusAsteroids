@@ -47,6 +47,8 @@ proc renderer*(
         case shape.kind
         of ShapeKind.Circle:
             renderer.get.circleRGBA(pos.center.x.int16, pos.center.y.int16, shape.radius.int16, 255, 255, 255, 255)
+        of ShapeKind.Point:
+            renderer.get.pixelRGBA(pos.center.x.int16, pos.center.y.int16, 255, 255, 255, 255)
 
     # When enabled, render the bounding boxes
     when defined(renderBounds):

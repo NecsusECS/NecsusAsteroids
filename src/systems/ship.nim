@@ -1,4 +1,4 @@
-import necsus, sdl2, math, ../components, ../sdl2util, ../textures, vmath
+import necsus, sdl2, math, ../components, ../sdl2util, ../textures, vmath, explosion
 
 proc spawnShip*(spawn: Spawn[(Ship, Position, Velocity, Sprite, EdgeWrap, Bounds)], screen: Shared[ScreenSize]) =
     ## Initializes the ship
@@ -90,6 +90,11 @@ proc accelerateShip*(
             if speed > MAX_SPEED:
                 vel.speed *= MAX_SPEED / speed
 
-proc resolveShipCollisions*(collision: Query[(Collided, Ship, Position)], delete: Delete) =
+proc resolveShipCollisions*(
+    collision: Query[(Collided, Ship, Position)],
+    delete: Delete,
+    explode: Outbox[TriggerExplosion]
+) =
     for eid, comp in collision:
+        explode(comp[2].center)
         eid.delete()
