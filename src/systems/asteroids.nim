@@ -1,4 +1,4 @@
-import necsus, ../components, ../sdl2util, ../textures, random, vmath, explosion
+import necsus, ../components, ../sdl2util, ../assets, random, vmath, explosion
 
 type AsteroidComponents = (Asteroid, Position, Bounds, Velocity, Sprite, EdgeWrap, Rotating)
 

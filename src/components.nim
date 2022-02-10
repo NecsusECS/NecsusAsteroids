@@ -1,4 +1,4 @@
-import textures, vmath
+import assets, vmath
 
 type
     Ship* = object

@@ -1,4 +1,4 @@
-import necsus, sdl2, sdl2/gfx, ../components, ../textures, vmath, collision
+import necsus, sdl2, sdl2/gfx, ../components, ../assets, vmath, collision
 
 proc drawLine(renderer: RendererPtr, p1, p2: Vec2; r, g, b: uint8) =
     renderer.lineRGBA(p1.x.int16, p1.y.int16, p2.x.int16, p2.y.int16, r, g, b, 255)
@@ -25,7 +25,7 @@ proc renderBoundingBoxes(renderer: RendererPtr, bounds: Query[(Bounds, Position)
 
 proc renderer*(
     renderer: Shared[RendererPtr],
-    textures: Shared[Textures],
+    assets: Shared[Assets],
     sprites: Query[(Sprite, Position)],
     shapes: Query[(Shape, Position)],
     bounds: Query[(Bounds, Position)],
@@ -37,7 +37,7 @@ proc renderer*(
     renderer.get.setDrawBlendMode(BlendMode_Blend)
 
     for (sprite, pos) in sprites:
-        let tex = textures.get()[sprite.texture]
+        let tex = assets.get()[sprite.texture]
         var src = rect(0, 0, tex.width, tex.height)
         var center = point(tex.width / 2, tex.height / 2)
         var target = rect(pos.center.x.cint - center.x, pos.center.y.cint - center.y, tex.width, tex.height)

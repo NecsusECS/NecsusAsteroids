@@ -1,4 +1,4 @@
-import necsus, sdl2, math, ../components, ../sdl2util, ../textures, vmath, explosion
+import necsus, sdl2, math, ../components, ../sdl2util, ../assets, vmath, explosion
 
 proc spawnShip*(spawn: Spawn[(Ship, Position, Velocity, Sprite, EdgeWrap, Bounds)], screen: Shared[ScreenSize]) =
     ## Initializes the ship

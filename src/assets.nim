@@ -11,7 +11,7 @@ type
         texture*: TexturePtr
         width*, height*: cint
 
-    Textures* = object
+    Assets* = object
         ## All the possible textures
         textures: array[TextureType, TextureData]
 
@@ -22,16 +22,16 @@ proc readTexture(renderer: RendererPtr, filename: static string): TextureData =
     result.texture = renderer.loadTexture_RW(data, freesrc = 1)
     discard result.texture.queryTexture(nil, nil, addr result.width, addr result.height)
 
-proc newTextures*(renderer: RendererPtr): Textures =
+proc initAssets*(renderer: RendererPtr): Assets =
     ## Initializes all the textures used by the game
     result.textures[ShipTexture] = renderer.readTexture("ship.png")
     result.textures[AsteroidTexture] = renderer.readTexture("asteroid1.png")
     result.textures[SmallAsteroidTexture] = renderer.readTexture("asteroid2.png")
 
-proc `[]`*(textures: Textures, key: TextureType): lent TextureData =
+proc `[]`*(assets: Assets, key: TextureType): lent TextureData =
     ## Read a texture
-    textures.textures[key]
+    assets.textures[key]
 
-proc `=destroy`*(textures: var Textures) =
+proc `=destroy`*(assets: var Assets) =
     for tex in low(TextureType)..high(TextureType):
-        textures.textures[tex].texture.destroy()
+        assets.textures[tex].texture.destroy()
