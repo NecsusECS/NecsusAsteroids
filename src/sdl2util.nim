@@ -1,4 +1,4 @@
-import sdl2
+import sdl2, sdl2/gfx, vmath
 
 type
     SDLException = object of Defect
@@ -38,3 +38,20 @@ template initialize*(screenSize: ScreenSize, window, renderer, code: untyped) =
     except:
         echo getCurrentExceptionMsg()
         raise
+
+proc drawLine*(renderer: RendererPtr, p1, p2: Vec2; r, g, b: uint8) =
+    renderer.lineRGBA(p1.x.int16, p1.y.int16, p2.x.int16, p2.y.int16, r, g, b, 255)
+
+iterator lines*(points: openarray[Vec2]): (Vec2, Vec2) =
+    ## Generates lines from a list of points
+    var firstPoint: Vec2
+    var recentPoint: Vec2
+    var isFirst: bool = true
+    for point in points:
+        if isFirst:
+            firstPoint = point
+            isFirst = false
+        else:
+            yield (recentPoint, point)
+        recentPoint = point
+    yield (recentPoint, firstPoint)

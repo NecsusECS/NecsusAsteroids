@@ -1,21 +1,4 @@
-import necsus, sdl2, sdl2/gfx, ../components, ../assets, vmath, collision
-
-proc drawLine(renderer: RendererPtr, p1, p2: Vec2; r, g, b: uint8) =
-    renderer.lineRGBA(p1.x.int16, p1.y.int16, p2.x.int16, p2.y.int16, r, g, b, 255)
-
-iterator lines(points: openarray[Vec2]): (Vec2, Vec2) =
-    ## Generates lines from a list of points
-    var firstPoint: Vec2
-    var recentPoint: Vec2
-    var isFirst: bool = true
-    for point in points:
-        if isFirst:
-            firstPoint = point
-            isFirst = false
-        else:
-            yield (recentPoint, point)
-        recentPoint = point
-    yield (recentPoint, firstPoint)
+import necsus, sdl2, sdl2/gfx, ../sdl2util, ../components, ../assets, vmath, collision
 
 proc reorient(point: Vec2, centroid: Position): Vec2 =
     ## Adjusts the location of a point based on a centroid
