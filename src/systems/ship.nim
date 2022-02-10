@@ -1,13 +1,17 @@
 import necsus, sdl2, math, ../components, ../sdl2util, ../textures, vmath
 
-proc spawnShip*(spawn: Spawn[(Ship, Position, Velocity, Sprite, EdgeWrap)], screen: Shared[ScreenSize]) =
+proc spawnShip*(spawn: Spawn[(Ship, Position, Velocity, Sprite, EdgeWrap, Bounds)], screen: Shared[ScreenSize]) =
     ## Initializes the ship
     discard spawn((
         Ship(),
         Position(center: vec2(screen.get.width / 2, screen.get.height / 2)),
         Velocity(),
         Sprite(texture: ShipTexture),
-        EdgeWrap()
+        EdgeWrap(),
+        Bounds(
+            kind: BoundsKind.Hull,
+            points: @[ vec2(0.0, -13.0), vec2(8.0, 13.0), vec2(-8.0, 13.0) ]
+        )
     ))
 
 type Rotating = enum
@@ -86,5 +90,6 @@ proc accelerateShip*(
             if speed > MAX_SPEED:
                 vel.speed *= MAX_SPEED / speed
 
-proc resolveShipCollisions*() =
-    discard
+proc resolveShipCollisions*(collision: Query[(Collided, Ship, Position)], delete: Delete) =
+    for eid, comp in collision:
+        eid.delete()

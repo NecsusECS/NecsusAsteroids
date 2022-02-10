@@ -14,7 +14,7 @@ proc asteroids(screenSize: ScreenSize, renderer: RendererPtr, textures: Textures
         ~resolveBulletCollisions,
         ~simulatePhysics,
         ~edgeWrap,
-        ~renderer
+        ~renderer,
     ],
     [],
     newNecsusConf()

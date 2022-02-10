@@ -40,15 +40,15 @@ type
         ## Indicates that an entity should wrap to the other side of
         ## the screen when it goes of the edge
 
-    BoundsKind* {.pure.} = enum Circle, Triangle
+    BoundsKind* {.pure.} = enum Circle, Hull
 
     Bounds* = object
         ## Collision boundary
         case kind*: BoundsKind
         of BoundsKind.Circle:
             radius*: float
-        of BoundsKind.Triangle:
-            width, height: float
+        of BoundsKind.Hull:
+            points*: seq[Vec2]
 
     Collided* = object
         ## Marks that a collision happened
