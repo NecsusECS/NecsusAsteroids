@@ -10,4 +10,4 @@ bin           = @["NecsusAsteroids"]
 
 # Dependencies
 
-requires "nim >= 1.6.2", "necsus", "sdl2", "bumpy", "vmath"
+requires "nim >= 1.6.2", "https://github.com/NecsusECS/Necsus", "sdl2", "bumpy", "vmath"
