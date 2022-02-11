@@ -1,4 +1,4 @@
-import assets, vmath
+import assets, vmath, text
 
 type
     Ship* = object
@@ -28,7 +28,7 @@ type
         ## The speed of movement of an object
         speed*: Vec2
 
-    RenderKind* {.pure.} = enum Sprite, Circle, Point
+    RenderKind* {.pure.} = enum Sprite, Circle, Point, Text
 
     Renderable* = object
         ## Various things that can be rendered
@@ -39,6 +39,8 @@ type
             radius*: float
         of RenderKind.Point:
             discard
+        of RenderKind.Text:
+            text*: RenderedText
 
     EdgeWrap* = object
         ## Indicates that an entity should wrap to the other side of

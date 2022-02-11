@@ -14,6 +14,12 @@ proc renderBoundingBoxes(renderer: RendererPtr, bounds: Query[(Bounds, Position)
             for (a, b) in bound.points.lines:
                 renderer.drawLine(a.reorient(pos), b.reorient(pos), 255, 0, 0)
 
+proc render(renderer: RendererPtr, pos: Position, tex: TexturePtr, width, height: cint) =
+    var src = rect(0, 0, width, height)
+    var center = point(width / 2, height / 2)
+    var target = rect(pos.center.x.cint - center.x, pos.center.y.cint - center.y, width, height)
+    renderer.copyEx(tex, src, target, angle = pos.angle, center = addr center)
+
 proc renderer*(
     renderer: Shared[RendererPtr],
     assets: Shared[Assets],
@@ -30,14 +36,13 @@ proc renderer*(
         case renderable.kind
         of RenderKind.Sprite:
             let tex = assets.get()[renderable.texture]
-            var src = rect(0, 0, tex.width, tex.height)
-            var center = point(tex.width / 2, tex.height / 2)
-            var target = rect(pos.center.x.cint - center.x, pos.center.y.cint - center.y, tex.width, tex.height)
-            renderer.get.copyEx(tex.texture, src, target, angle = pos.angle, center = addr center)
+            renderer.get.render(pos, tex.texture, tex.width, tex.height)
         of RenderKind.Circle:
             renderer.get.circleRGBA(pos.center.x.int16, pos.center.y.int16, renderable.radius.int16, 255, 255, 255, 255)
         of RenderKind.Point:
             renderer.get.pixelRGBA(pos.center.x.int16, pos.center.y.int16, 255, 255, 255, 255)
+        of RenderKind.Text:
+            renderer.get.render(pos, renderable.text.texture, renderable.text.width, renderable.text.height)
 
     # When enabled, render the bounding boxes
     when defined(renderBounds):

@@ -1,11 +1,11 @@
-import sdl2, sdl2/gfx, vmath
+import sdl2, sdl2/gfx, sdl2/ttf, vmath
 
 type
     SDLException = object of Defect
 
     ScreenSize* = tuple[width: int, height: int]
 
-template sdlFailIf(condition: typed, reason: string) =
+template sdlFailIf*(condition: typed, reason: string) =
     if condition: raise SDLException.newException(reason & ", SDL error " & $getError())
 
 template initialize*(screenSize: ScreenSize, window, renderer, code: untyped) =
@@ -22,6 +22,9 @@ template initialize*(screenSize: ScreenSize, window, renderer, code: untyped) =
             h = screenSize.height.cint,
             flags = SDL_WINDOW_SHOWN
         )
+
+        sdlFailIf(ttfInit() == SdlError): "SDL2 TTF initialization failed"
+        defer: ttfQuit()
 
         sdlFailIf window.isNil: "window could not be created"
         defer: window.destroy()

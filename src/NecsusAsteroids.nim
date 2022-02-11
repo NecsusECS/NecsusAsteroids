@@ -1,7 +1,14 @@
-import necsus, sdl2util, sdl2, assets
-import systems/[sdl2events, ship, physics, render, bullet, asteroids, collision, explosion]
+import necsus, sdl2util, sdl2, assets, text
+import systems/[sdl2events, ship, physics, render, bullet, asteroids, collision, explosion, splash]
 
-proc asteroids(screenSize: ScreenSize, renderer: RendererPtr, assets: Assets) {.necsus(
+proc splash(screenSize: ScreenSize, renderer: RendererPtr, assets: Assets, text: TextBuilder) {.necsus(
+    [~splashScreen],
+    [ ~emitEvents, ~exitSplash, ~renderer],
+    [],
+    newNecsusConf()
+).}
+
+proc game(screenSize: ScreenSize, renderer: RendererPtr, assets: Assets, text: TextBuilder) {.necsus(
     [~spawnShip, ~spawnAsteroids],
     [
         ~emitEvents,
@@ -25,5 +32,7 @@ proc asteroids(screenSize: ScreenSize, renderer: RendererPtr, assets: Assets) {.
 let screenSize = (width: 640, height: 480)
 
 initialize(screenSize, window, renderer):
-    let assets = renderer.initAssets()
-    asteroids(screenSize, renderer, assets)
+    var assets = renderer.initAssets()
+    let text = initTextBuilder(renderer, addr assets)
+    splash(screenSize, renderer, assets, text)
+    game(screenSize, renderer, assets, text)
