@@ -17,8 +17,7 @@ proc renderBoundingBoxes(renderer: RendererPtr, bounds: Query[(Bounds, Position)
 proc renderer*(
     renderer: Shared[RendererPtr],
     assets: Shared[Assets],
-    sprites: Query[(Sprite, Position)],
-    shapes: Query[(Shape, Position)],
+    renderables: Query[(Renderable, Position)],
     bounds: Query[(Bounds, Position)],
 ) =
     # Renders the current frame
@@ -27,18 +26,17 @@ proc renderer*(
     renderer.get.clear()
     renderer.get.setDrawBlendMode(BlendMode_Blend)
 
-    for (sprite, pos) in sprites:
-        let tex = assets.get()[sprite.texture]
-        var src = rect(0, 0, tex.width, tex.height)
-        var center = point(tex.width / 2, tex.height / 2)
-        var target = rect(pos.center.x.cint - center.x, pos.center.y.cint - center.y, tex.width, tex.height)
-        renderer.get.copyEx(tex.texture, src, target, angle = pos.angle, center = addr center)
-
-    for (shape, pos) in shapes:
-        case shape.kind
-        of ShapeKind.Circle:
-            renderer.get.circleRGBA(pos.center.x.int16, pos.center.y.int16, shape.radius.int16, 255, 255, 255, 255)
-        of ShapeKind.Point:
+    for (renderable, pos) in renderables:
+        case renderable.kind
+        of RenderKind.Sprite:
+            let tex = assets.get()[renderable.texture]
+            var src = rect(0, 0, tex.width, tex.height)
+            var center = point(tex.width / 2, tex.height / 2)
+            var target = rect(pos.center.x.cint - center.x, pos.center.y.cint - center.y, tex.width, tex.height)
+            renderer.get.copyEx(tex.texture, src, target, angle = pos.angle, center = addr center)
+        of RenderKind.Circle:
+            renderer.get.circleRGBA(pos.center.x.int16, pos.center.y.int16, renderable.radius.int16, 255, 255, 255, 255)
+        of RenderKind.Point:
             renderer.get.pixelRGBA(pos.center.x.int16, pos.center.y.int16, 255, 255, 255, 255)
 
     # When enabled, render the bounding boxes

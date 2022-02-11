@@ -6,7 +6,7 @@ type TriggerExplosion* = Vec2
 proc explosions*(
     dt: TimeDelta,
     triggers: Inbox[TriggerExplosion],
-    spawnExplosion: Spawn[(Explosion, Position, Velocity, Shape)],
+    spawnExplosion: Spawn[(Explosion, Position, Velocity, Renderable)],
     particles: Query[(ptr Explosion, )],
     delete: Delete,
 ) =
@@ -21,5 +21,5 @@ proc explosions*(
                 Explosion(ttl: rand(0.0..3.0)),
                 Position(center: trigger),
                 Velocity(speed: vec2(rand(-100.0..100.0), rand(-100.0..100.0))),
-                Shape(kind: ShapeKind.Point)
+                Renderable(kind: RenderKind.Point)
             ))

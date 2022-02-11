@@ -1,12 +1,12 @@
 import necsus, sdl2, math, ../components, ../sdl2util, ../assets, vmath, explosion
 
-proc spawnShip*(spawn: Spawn[(Ship, Position, Velocity, Sprite, EdgeWrap, Bounds)], screen: Shared[ScreenSize]) =
+proc spawnShip*(spawn: Spawn[(Ship, Position, Velocity, Renderable, EdgeWrap, Bounds)], screen: Shared[ScreenSize]) =
     ## Initializes the ship
     discard spawn((
         Ship(),
         Position(center: vec2(screen.get.width / 2, screen.get.height / 2)),
         Velocity(),
-        Sprite(texture: ShipTexture),
+        Renderable(kind: RenderKind.Sprite, texture: ShipTexture),
         EdgeWrap(),
         Bounds(
             kind: BoundsKind.Hull,

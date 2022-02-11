@@ -28,18 +28,16 @@ type
         ## The speed of movement of an object
         speed*: Vec2
 
-    Sprite* = object
-        ## A renderable sprite
-        texture*: TextureType
+    RenderKind* {.pure.} = enum Sprite, Circle, Point
 
-    ShapeKind* {.pure.} = enum Circle, Point
-
-    Shape* = object
-        ## Allows rendering of an arbitrary shape
-        case kind*: ShapeKind
-        of ShapeKind.Circle:
+    Renderable* = object
+        ## Various things that can be rendered
+        case kind*: RenderKind
+        of RenderKind.Sprite:
+            texture*: TextureType
+        of RenderKind.Circle:
             radius*: float
-        of ShapeKind.Point:
+        of RenderKind.Point:
             discard
 
     EdgeWrap* = object

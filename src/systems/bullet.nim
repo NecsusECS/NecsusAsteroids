@@ -7,7 +7,7 @@ const BULLET_DELAY = 0.2
 proc shoot*(
     inputs: Inbox[KeyboardEventObj],
     ship: Query[(Ship, Position)],
-    spawn: Spawn[(Bullet, Position, Velocity, Shape, Bounds)],
+    spawn: Spawn[(Bullet, Position, Velocity, Renderable, Bounds)],
     time: TimeElapsed,
     lastShot: var Local[float]
 ) =
@@ -18,7 +18,7 @@ proc shoot*(
             Bullet(),
             start,
             Velocity(speed: start.angleVector * BULLET_SPEED),
-            Shape(kind: Circle, radius: 5.0),
+            Renderable(kind: Circle, radius: 5.0),
             Bounds(kind: BoundsKind.Circle, radius: 4.0),
         ))
 
