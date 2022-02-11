@@ -10,7 +10,7 @@ proc spawnShip*(spawn: Spawn[(Ship, Position, Velocity, Renderable, EdgeWrap, Bo
         EdgeWrap(),
         Bounds(
             kind: BoundsKind.Hull,
-            points: @[ vec2(0.0, -13.0), vec2(8.0, 13.0), vec2(-8.0, 13.0) ]
+            points: @[ vec2(0.0, -10.0), vec2(7.0, 10.0), vec2(-7.0, 10.0) ]
         )
     ))
 

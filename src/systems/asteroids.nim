@@ -5,7 +5,7 @@ type AsteroidComponents = (Asteroid, Position, Bounds, Velocity, Renderable, Edg
 proc pickStartPosition(center: Vec2, screen: ScreenSize): Position =
     ## Pick a starting position that is not going to overlap with the ship
     let picked = vec2(rand(0.0..screen.width.float), rand(0.0..screen.height.float))
-    if distSq(center, picked) < 1000:
+    if distSq(center, picked) < 30_000:
         return pickStartPosition(center, screen)
     else:
         return Position(center: picked, angle: rand(0.0..360.0))
@@ -34,7 +34,7 @@ proc spawnAsteroids*(spawn: Spawn[AsteroidComponents], screen: Shared[ScreenSize
     let center = vec2(screen.get.width / 2, screen.get.height / 2)
 
     for i in 0..5:
-        discard spawn(createAsteroid(pickStartPosition(center, screen.get), AsteroidTexture, 30.0, 1))
+        discard spawn(createAsteroid(pickStartPosition(center, screen.get), AsteroidTexture, 25.0, 1))
 
 proc resolveAsteroidCollisions*(
     collisions: Query[(Collided, Asteroid, Position)],
@@ -49,5 +49,5 @@ proc resolveAsteroidCollisions*(
         explode(pos.center)
         if asteroid.remainingSplits > 0:
             for _ in 0..1:
-                discard spawn(createAsteroid(pos, SmallAsteroidTexture, 15.0, asteroid.remainingSplits - 1))
+                discard spawn(createAsteroid(pos, SmallAsteroidTexture, 10.0, asteroid.remainingSplits - 1))
         eid.delete()
