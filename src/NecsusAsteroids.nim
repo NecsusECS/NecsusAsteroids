@@ -1,5 +1,5 @@
 import necsus, sdl2util, sdl2, assets, text
-import systems/[sdl2events, ship, physics, render, bullet, asteroids, collision, explosion, splash]
+import systems/[sdl2events, ship, physics, render, bullet, asteroids, collision, explosion, splash, winlose]
 
 proc splash(screenSize: ScreenSize, renderer: RendererPtr, assets: Assets, text: TextBuilder) {.necsus(
     [~splashScreen],
@@ -23,6 +23,7 @@ proc game(screenSize: ScreenSize, renderer: RendererPtr, assets: Assets, text: T
         ~explosions,
         ~simulatePhysics,
         ~edgeWrap,
+        ~checkWinOrLose,
         ~renderer,
     ],
     [],
