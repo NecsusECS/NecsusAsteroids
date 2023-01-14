@@ -34,7 +34,7 @@ proc spawnAsteroids*(spawn: Spawn[AsteroidComponents], screen: Shared[ScreenSize
     let center = vec2(screen.get.width / 2, screen.get.height / 2)
 
     for i in 0..5:
-        discard spawn(createAsteroid(pickStartPosition(center, screen.get), AsteroidTexture, 25.0, 1))
+        discard spawn.set(createAsteroid(pickStartPosition(center, screen.get), AsteroidTexture, 25.0, 1))
 
 proc resolveAsteroidCollisions*(
     collisions: Query[(Collided, Asteroid, Position)],
@@ -49,5 +49,5 @@ proc resolveAsteroidCollisions*(
         explode(pos.center)
         if asteroid.remainingSplits > 0:
             for _ in 0..1:
-                discard spawn(createAsteroid(pos, SmallAsteroidTexture, 10.0, asteroid.remainingSplits - 1))
+                discard spawn.set(createAsteroid(pos, SmallAsteroidTexture, 10.0, asteroid.remainingSplits - 1))
         eid.delete()

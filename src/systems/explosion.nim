@@ -17,9 +17,9 @@ proc explosions*(
 
     for trigger in triggers:
         for _ in 1..50:
-            discard spawnExplosion((
+            discard spawnExplosion.with(
                 Explosion(ttl: rand(0.0..3.0)),
                 Position(center: trigger),
                 Velocity(speed: vec2(rand(-100.0..100.0), rand(-100.0..100.0))),
                 Renderable(kind: RenderKind.Point)
-            ))
+            )

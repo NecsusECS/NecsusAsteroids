@@ -2,7 +2,7 @@ import necsus, sdl2, math, ../components, ../sdl2util, ../assets, vmath, explosi
 
 proc spawnShip*(spawn: Spawn[(Ship, Position, Velocity, Renderable, EdgeWrap, Bounds)], screen: Shared[ScreenSize]) =
     ## Initializes the ship
-    discard spawn((
+    discard spawn.with(
         Ship(),
         Position(center: vec2(screen.get.width / 2, screen.get.height / 2)),
         Velocity(),
@@ -12,7 +12,7 @@ proc spawnShip*(spawn: Spawn[(Ship, Position, Velocity, Renderable, EdgeWrap, Bo
             kind: BoundsKind.Hull,
             points: @[ vec2(0.0, -10.0), vec2(7.0, 10.0), vec2(-7.0, 10.0) ]
         )
-    ))
+    )
 
 type Rotating = enum
     ## Used to mark that a user has requested rotation in a specific direction

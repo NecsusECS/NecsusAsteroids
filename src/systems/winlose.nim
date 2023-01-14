@@ -11,13 +11,13 @@ proc checkWinOrLose*(
     spawn: Spawn[(Renderable, Position)]
 ) =
     proc spawnText(str: string) =
-        discard spawn((
+        discard spawn.with(
             Renderable(
                 kind: RenderKind.Text,
                 text: text.get.renderText(PixelFontLarge, str, color(255, 255, 255, 255))
             ),
             Position(center: vec2(screen.get.width / 2, screen.get.height / 2))
-        ))
+        )
 
     block done:
         if state.get(Playing) == Playing:

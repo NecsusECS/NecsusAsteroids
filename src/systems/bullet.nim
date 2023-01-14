@@ -14,13 +14,13 @@ proc shoot*(
     ## Create a bullet when the spacebar is pressed
     template spawnBullet(start: Position) =
         lastShot.set(time)
-        discard spawn((
+        discard spawn.with(
             Bullet(),
             start,
             Velocity(speed: start.angleVector * BULLET_SPEED),
             Renderable(kind: Circle, radius: 5.0),
             Bounds(kind: BoundsKind.Circle, radius: 4.0),
-        ))
+        )
 
     for input in inputs:
         if input.kind == KeyDown and input.keysym.scancode == SDL_SCANCODE_SPACE:
