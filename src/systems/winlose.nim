@@ -7,7 +7,7 @@ proc checkWinOrLose*(
     screen: Shared[ScreenSize],
     asteroids: Query[(Asteroid, )],
     ships: Query[(Ship, )],
-    state: var Local[GameState],
+    state: Local[GameState],
     spawn: Spawn[(Renderable, Position)]
 ) =
     proc spawnText(str: string) =

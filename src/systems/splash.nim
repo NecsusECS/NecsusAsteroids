@@ -18,7 +18,7 @@ proc splashScreen*(text: Shared[TextBuilder], spawn: Spawn[(Renderable, Position
         Position(center: vec2(screen.get.width / 2, screen.get.height / 2 + 50))
     )
 
-proc exitSplash*(input: Inbox[KeyboardEventObj], exit: var Shared[NecsusRun]) =
+proc exitSplash*(input: Inbox[KeyboardEventObj], exit: Shared[NecsusRun]) =
     ## Exits the current app when any key is pressed
     for key in input:
         if key.kind == KeyUp and key.keysym.scancode in SDL_SCANCODE_A..SDL_SCANCODE_NONUSBACKSLASH:

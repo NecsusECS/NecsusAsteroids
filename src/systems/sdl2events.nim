@@ -1,9 +1,6 @@
 import sdl2, necsus
 
-proc emitEvents*(
-    sendInput: Outbox[KeyboardEventObj],
-    exit: var Shared[NecsusRun]
-) =
+proc emitEvents*(sendInput: Outbox[KeyboardEventObj], exit: Shared[NecsusRun]) =
     ## Reads SDL2 events and emits them as ECS events
     var event = defaultEvent
     while pollEvent(event):

@@ -9,7 +9,7 @@ proc shoot*(
     ship: Query[(Ship, Position)],
     spawn: Spawn[(Bullet, Position, Velocity, Renderable, Bounds)],
     time: TimeElapsed,
-    lastShot: var Local[float]
+    lastShot: Local[float]
 ) =
     ## Create a bullet when the spacebar is pressed
     template spawnBullet(start: Position) =

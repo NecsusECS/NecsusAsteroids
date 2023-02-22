@@ -24,7 +24,7 @@ proc rotateShip*(
     dt: TimeDelta,
     ship: Query[(Ship, ptr Position)],
     inputs: Inbox[KeyboardEventObj],
-    isRotating: var Local[Rotating]
+    isRotating: Local[Rotating]
 ) =
     ## Changes the rotation of the ship based on keyboard input
 
@@ -67,7 +67,7 @@ proc accelerateShip*(
     dt: TimeDelta,
     ship: Query[(Ship, Position, ptr Velocity)],
     inputs: Inbox[KeyboardEventObj],
-    isAccelerating: var Local[bool]
+    isAccelerating: Local[bool]
 ) =
     ## Looks for keyboard events and accelerates the ship
 
