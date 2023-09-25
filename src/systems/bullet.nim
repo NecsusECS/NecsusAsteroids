@@ -13,7 +13,7 @@ proc shoot*(
 ) =
     ## Create a bullet when the spacebar is pressed
     template spawnBullet(start: Position) =
-        lastShot.set(time)
+        lastShot := time
         discard spawn.with(
             Bullet(),
             start,
