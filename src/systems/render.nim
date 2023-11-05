@@ -28,24 +28,24 @@ proc renderer*(
 ) =
     # Renders the current frame
 
-    renderer.get.setDrawColor(0, 0, 0, 255)
-    renderer.get.clear()
-    renderer.get.setDrawBlendMode(BlendMode_Blend)
+    renderer.getOrRaise.setDrawColor(0, 0, 0, 255)
+    renderer.getOrRaise.clear()
+    renderer.getOrRaise.setDrawBlendMode(BlendMode_Blend)
 
     for (renderable, pos) in renderables:
         case renderable.kind
         of RenderKind.Sprite:
-            let tex = assets.get()[renderable.texture]
-            renderer.get.render(pos, tex.texture, tex.width, tex.height)
+            let tex = assets.getOrRaise()[renderable.texture]
+            renderer.getOrRaise.render(pos, tex.texture, tex.width, tex.height)
         of RenderKind.Circle:
-            renderer.get.circleRGBA(pos.center.x.int16, pos.center.y.int16, renderable.radius.int16, 255, 255, 255, 255)
+            renderer.getOrRaise.circleRGBA(pos.center.x.int16, pos.center.y.int16, renderable.radius.int16, 255, 255, 255, 255)
         of RenderKind.Point:
-            renderer.get.pixelRGBA(pos.center.x.int16, pos.center.y.int16, 255, 255, 255, 255)
+            renderer.getOrRaise.pixelRGBA(pos.center.x.int16, pos.center.y.int16, 255, 255, 255, 255)
         of RenderKind.Text:
-            renderer.get.render(pos, renderable.text.texture, renderable.text.width, renderable.text.height)
+            renderer.getOrRaise.render(pos, renderable.text.texture, renderable.text.width, renderable.text.height)
 
     # When enabled, render the bounding boxes
     when defined(renderBounds):
-        renderBoundingBoxes(renderer.get, bounds)
+        renderBoundingBoxes(renderer.getOrRaise, bounds)
 
-    renderer.get.present()
+    renderer.getOrRaise.present()

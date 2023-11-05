@@ -31,10 +31,10 @@ proc spawnAsteroids*(spawn: Spawn[AsteroidComponents], screen: Shared[ScreenSize
     ## Initializes an asteroid
     randomize()
 
-    let center = vec2(screen.get.width / 2, screen.get.height / 2)
+    let center = vec2(screen.getOrRaise.width / 2, screen.getOrRaise.height / 2)
 
     for i in 0..5:
-        discard spawn.set(createAsteroid(pickStartPosition(center, screen.get), AsteroidTexture, 25.0, 1))
+        discard spawn.set(createAsteroid(pickStartPosition(center, screen.getOrRaise), AsteroidTexture, 25.0, 1))
 
 proc resolveAsteroidCollisions*(
     collisions: Query[(Collided, Asteroid, Position)],

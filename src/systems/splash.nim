@@ -5,17 +5,17 @@ proc splashScreen*(text: Shared[TextBuilder], spawn: Spawn[(Renderable, Position
     discard spawn.with(
         Renderable(
             kind: RenderKind.Text,
-            text: text.get.renderText(PixelFontLarge, "Asteroids", color(255, 255, 255, 255))
+            text: text.getOrRaise.renderText(PixelFontLarge, "Asteroids", color(255, 255, 255, 255))
         ),
-        Position(center: vec2(screen.get.width / 2, screen.get.height / 2))
+        Position(center: vec2(screen.getOrRaise.width / 2, screen.getOrRaise.height / 2))
     )
 
     discard spawn.with(
         Renderable(
             kind: RenderKind.Text,
-            text: text.get.renderText(PixelFontSmall, "Press any key to start", color(255, 255, 255, 255))
+            text: text.getOrRaise.renderText(PixelFontSmall, "Press any key to start", color(255, 255, 255, 255))
         ),
-        Position(center: vec2(screen.get.width / 2, screen.get.height / 2 + 50))
+        Position(center: vec2(screen.getOrRaise.width / 2, screen.getOrRaise.height / 2 + 50))
     )
 
 proc exitSplash*(input: Inbox[KeyboardEventObj], exit: Shared[NecsusRun]) =

@@ -25,12 +25,12 @@ proc edgeWrap*(
 ) =
     ## Checks if any entities have moved off screen and wraps them to the other side of the screen if they have
     for (position, shouldWrap) in wrapping:
-        position.center.x = wrap(position.center.x, screen.get.width)
-        position.center.y = wrap(position.center.y, screen.get.height)
+        position.center.x = wrap(position.center.x, screen.getOrRaise.width)
+        position.center.y = wrap(position.center.y, screen.getOrRaise.height)
 
     for eid, comps in nonWrapping:
         let (pos, _) = comps
-        if pos.center.y notin validRange(screen.get.height) or pos.center.x notin validRange(screen.get.width):
+        if pos.center.y notin validRange(screen.getOrRaise.height) or pos.center.x notin validRange(screen.getOrRaise.width):
             eid.delete()
 
 proc rotation*(dt: TimeDelta, query: Query[(ptr Position, Rotating)]) =

@@ -4,7 +4,7 @@ proc spawnShip*(spawn: Spawn[(Ship, Position, Velocity, Renderable, EdgeWrap, Bo
     ## Initializes the ship
     discard spawn.with(
         Ship(),
-        Position(center: vec2(screen.get.width / 2, screen.get.height / 2)),
+        Position(center: vec2(screen.getOrRaise.width / 2, screen.getOrRaise.height / 2)),
         Velocity(),
         Renderable(kind: RenderKind.Sprite, texture: ShipTexture),
         EdgeWrap(),
