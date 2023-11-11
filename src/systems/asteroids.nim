@@ -1,6 +1,6 @@
 import necsus, ../components, ../sdl2util, ../assets, random, vmath, explosion
 
-type AsteroidComponents = (Asteroid, Position, Bounds, Velocity, Renderable, EdgeWrap, Rotating)
+type AsteroidComponents = (Asteroid, Bounds, EdgeWrap, Position, Renderable, Rotating, Velocity)
 
 proc pickStartPosition(center: Vec2, screen: ScreenSize): Position =
     ## Pick a starting position that is not going to overlap with the ship
@@ -19,12 +19,12 @@ proc randomVelocity(): auto =
 proc createAsteroid(position: Position, texture: TextureType, radius: float, splits: int): AsteroidComponents =
     (
         Asteroid(remainingSplits: splits),
-        position,
         Bounds(kind: BoundsKind.Circle, radius: radius),
-        Velocity(speed: vec2(randomVelocity(), randomVelocity())),
-        Renderable(kind: RenderKind.Sprite, texture: texture),
         EdgeWrap(),
+        position,
+        Renderable(kind: RenderKind.Sprite, texture: texture),
         Rotating(rotateSpeed: rand(-100.0..100.0)),
+        Velocity(speed: vec2(randomVelocity(), randomVelocity())),
     )
 
 proc spawnAsteroids*(spawn: Spawn[AsteroidComponents], screen: Shared[ScreenSize]) =

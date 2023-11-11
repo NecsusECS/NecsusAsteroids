@@ -8,15 +8,15 @@ proc checkWinOrLose*(
     asteroids: Query[(Asteroid, )],
     ships: Query[(Ship, )],
     state: Local[GameState],
-    spawn: Spawn[(Renderable, Position)]
+    spawn: Spawn[(Position, Renderable)]
 ) =
     proc spawnText(str: string) =
         discard spawn.with(
+            Position(center: vec2(screen.getOrRaise.width / 2, screen.getOrRaise.height / 2)),
             Renderable(
                 kind: RenderKind.Text,
                 text: text.getOrRaise.renderText(PixelFontLarge, str, color(255, 255, 255, 255))
             ),
-            Position(center: vec2(screen.getOrRaise.width / 2, screen.getOrRaise.height / 2))
         )
 
     block done:

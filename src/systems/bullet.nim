@@ -7,7 +7,7 @@ const BULLET_DELAY = 0.2
 proc shoot*(
     inputs: Inbox[KeyboardEventObj],
     ship: Query[(Ship, Position)],
-    spawn: Spawn[(Bullet, Position, Velocity, Renderable, Bounds)],
+    spawn: Spawn[(Bounds, Bullet, Position, Renderable, Velocity)],
     time: TimeElapsed,
     lastShot: Local[float]
 ) =
@@ -15,11 +15,11 @@ proc shoot*(
     template spawnBullet(start: Position) =
         lastShot := time
         discard spawn.with(
+            Bounds(kind: BoundsKind.Circle, radius: 4.0),
             Bullet(),
             start,
-            Velocity(speed: start.angleVector * BULLET_SPEED),
             Renderable(kind: Circle, radius: 5.0),
-            Bounds(kind: BoundsKind.Circle, radius: 4.0),
+            Velocity(speed: start.angleVector * BULLET_SPEED),
         )
 
     for input in inputs:

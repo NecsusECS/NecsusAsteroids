@@ -1,17 +1,17 @@
 import necsus, sdl2, math, ../components, ../sdl2util, ../assets, vmath, explosion
 
-proc spawnShip*(spawn: Spawn[(Ship, Position, Velocity, Renderable, EdgeWrap, Bounds)], screen: Shared[ScreenSize]) =
+proc spawnShip*(spawn: Spawn[(Bounds, EdgeWrap, Position, Renderable, Ship, Velocity)], screen: Shared[ScreenSize]) =
     ## Initializes the ship
     discard spawn.with(
-        Ship(),
-        Position(center: vec2(screen.getOrRaise.width / 2, screen.getOrRaise.height / 2)),
-        Velocity(),
-        Renderable(kind: RenderKind.Sprite, texture: ShipTexture),
-        EdgeWrap(),
         Bounds(
             kind: BoundsKind.Hull,
             points: @[ vec2(0.0, -10.0), vec2(7.0, 10.0), vec2(-7.0, 10.0) ]
-        )
+        ),
+        EdgeWrap(),
+        Position(center: vec2(screen.getOrRaise.width / 2, screen.getOrRaise.height / 2)),
+        Renderable(kind: RenderKind.Sprite, texture: ShipTexture),
+        Ship(),
+        Velocity(),
     )
 
 type Rotating = enum
