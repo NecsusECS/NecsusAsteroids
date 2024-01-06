@@ -23,22 +23,22 @@ proc collides(a, b: Bounds; aPos, bPos: Vec2): bool =
     of BoundsKind.Hull: raise newException(AssertionDefect, "Not yet implemented!")
 
 proc markCollisions*(
-    asteroids: Query[(Asteroid, Position, Bounds)],
-    bullets: Query[(Bullet, Position, Bounds)],
-    ships: Query[(Ship, Position, Bounds)],
+    asteroids: FullQuery[(Asteroid, Position, Bounds)],
+    bullets: FullQuery[(Bullet, Position, Bounds)],
+    ships: FullQuery[(Ship, Position, Bounds)],
     collided: Attach[(Collided, )],
 ) =
     ## Calculates asteroid collisions with various other entities
-    for (asteroid, asteroidComp) in asteroids.pairs:
+    for asteroid, asteroidComp in asteroids:
         let (_, asterPos, asterBounds) = asteroidComp
 
-        for (bullet, bulletComp) in bullets.pairs:
+        for bullet, bulletComp in bullets:
             let (_, bulletPos, bulletBounds) = bulletComp
             if collides(asterBounds, bulletBounds, asterPos.center, bulletPos.center):
                 asteroid.collided((Collided(), ))
                 bullet.collided((Collided(), ))
 
-        for (ship, shipComps) in ships.pairs:
+        for ship, shipComps in ships:
             let (_, shipPos, shipBounds) = shipComps
             if collides(asterBounds, shipBounds, asterPos.center, shipPos.center):
                 ship.collided((Collided(), ))

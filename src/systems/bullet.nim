@@ -14,7 +14,7 @@ proc shoot*(
     ## Create a bullet when the spacebar is pressed
     template spawnBullet(start: Position) =
         lastShot := time
-        discard spawn.with(
+        spawn.with(
             Bounds(kind: BoundsKind.Circle, radius: 4.0),
             Bullet(),
             start,
@@ -28,7 +28,7 @@ proc shoot*(
                 for (_, spawnPosition) in ship:
                     spawnBullet(spawnPosition)
 
-proc resolveBulletCollisions*(other: Query[(Collided, Bullet)], delete: Delete) =
+proc resolveBulletCollisions*(other: FullQuery[(Collided, Bullet)], delete: Delete) =
     ## Responds to a bullet hitting an asteroid
     for eid, _ in other:
         eid.delete()

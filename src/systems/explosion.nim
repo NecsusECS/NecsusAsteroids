@@ -7,7 +7,7 @@ proc explosions*(
     dt: TimeDelta,
     triggers: Inbox[TriggerExplosion],
     spawnExplosion: Spawn[(Explosion, Position, Renderable, Velocity)],
-    particles: Query[(ptr Explosion, )],
+    particles: FullQuery[(ptr Explosion, )],
     delete: Delete,
 ) =
     for eid, comp in particles:
@@ -17,7 +17,7 @@ proc explosions*(
 
     for trigger in triggers:
         for _ in 1..50:
-            discard spawnExplosion.with(
+            spawnExplosion.with(
                 Explosion(ttl: rand(0.0..3.0)),
                 Position(center: trigger),
                 Renderable(kind: RenderKind.Point),

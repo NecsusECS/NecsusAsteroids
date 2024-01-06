@@ -2,7 +2,7 @@ import necsus, sdl2, math, ../components, ../sdl2util, ../assets, vmath, explosi
 
 proc spawnShip*(spawn: Spawn[(Bounds, EdgeWrap, Position, Renderable, Ship, Velocity)], screen: Shared[ScreenSize]) =
     ## Initializes the ship
-    discard spawn.with(
+    spawn.with(
         Bounds(
             kind: BoundsKind.Hull,
             points: @[ vec2(0.0, -10.0), vec2(7.0, 10.0), vec2(-7.0, 10.0) ]
@@ -91,7 +91,7 @@ proc accelerateShip*(
                 vel.speed *= MAX_SPEED / speed
 
 proc resolveShipCollisions*(
-    collision: Query[(Collided, Ship, Position)],
+    collision: FullQuery[(Collided, Ship, Position)],
     delete: Delete,
     explode: Outbox[TriggerExplosion]
 ) =

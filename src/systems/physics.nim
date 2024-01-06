@@ -19,7 +19,7 @@ proc validRange(maximum: int): auto = -WRAP_MARGIN..(maximum.float + WRAP_MARGIN
 
 proc edgeWrap*(
     wrapping: Query[(ptr Position, EdgeWrap)],
-    nonWrapping: Query[(Position, Not[EdgeWrap])],
+    nonWrapping: FullQuery[(Position, Not[EdgeWrap])],
     screen: Shared[ScreenSize],
     delete: Delete
 ) =

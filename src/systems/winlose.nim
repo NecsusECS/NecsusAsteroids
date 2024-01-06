@@ -11,7 +11,7 @@ proc checkWinOrLose*(
     spawn: Spawn[(Position, Renderable)]
 ) =
     proc spawnText(str: string) =
-        discard spawn.with(
+        spawn.with(
             Position(center: vec2(screen.getOrRaise.width / 2, screen.getOrRaise.height / 2)),
             Renderable(
                 kind: RenderKind.Text,

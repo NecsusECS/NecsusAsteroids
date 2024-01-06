@@ -2,7 +2,7 @@ import necsus, sdl2, ../text, ../assets, ../components, ../sdl2util, vmath
 
 proc splashScreen*(text: Shared[TextBuilder], spawn: Spawn[(Position, Renderable)], screen: Shared[ScreenSize]) =
     ## Creates text for the splash screen
-    discard spawn.with(
+    spawn.with(
         Position(center: vec2(screen.getOrRaise.width / 2, screen.getOrRaise.height / 2)),
         Renderable(
             kind: RenderKind.Text,
@@ -10,7 +10,7 @@ proc splashScreen*(text: Shared[TextBuilder], spawn: Spawn[(Position, Renderable
         ),
     )
 
-    discard spawn.with(
+    spawn.with(
         Position(center: vec2(screen.getOrRaise.width / 2, screen.getOrRaise.height / 2 + 50)),
         Renderable(
             kind: RenderKind.Text,
