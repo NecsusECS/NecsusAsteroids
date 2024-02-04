@@ -1,6 +1,9 @@
 import necsus, sdl2, math, ../components, ../sdl2util, ../assets, vmath, explosion
 
-proc spawnShip*(spawn: Spawn[(Bounds, EdgeWrap, Position, Renderable, Ship, Velocity)], screen: Shared[ScreenSize]) =
+proc spawnShip*(
+    spawn: Spawn[(Bounds, EdgeWrap, Position, Renderable, Ship, Velocity)],
+    screen: Shared[ScreenSize]
+) {.startupSys.} =
     ## Initializes the ship
     spawn.with(
         Bounds(

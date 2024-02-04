@@ -27,7 +27,7 @@ proc createAsteroid(position: Position, texture: TextureType, radius: float, spl
         Velocity(speed: vec2(randomVelocity(), randomVelocity())),
     )
 
-proc spawnAsteroids*(spawn: Spawn[AsteroidComponents], screen: Shared[ScreenSize]) =
+proc spawnAsteroids*(spawn: Spawn[AsteroidComponents], screen: Shared[ScreenSize]) {.startupSys.} =
     ## Initializes an asteroid
     randomize()
 

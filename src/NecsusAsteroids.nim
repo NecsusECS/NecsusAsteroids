@@ -2,15 +2,14 @@ import necsus, sdl2util, sdl2, assets, text
 import systems/[sdl2events, ship, physics, render, bullet, asteroids, collision, explosion, splash, winlose]
 
 proc splash(screenSize: ScreenSize, renderer: RendererPtr, assets: Assets, text: TextBuilder) {.necsus(
-    [~splashScreen],
-    [ ~emitEvents, ~exitSplash, ~renderer],
-    [],
+    [~splashScreen, ~emitEvents, ~exitSplash, ~renderer],
     newNecsusConf()
 ).}
 
 proc game(screenSize: ScreenSize, renderer: RendererPtr, assets: Assets, text: TextBuilder) {.necsus(
-    [~spawnShip, ~spawnAsteroids],
     [
+        ~spawnShip,
+        ~spawnAsteroids,
         ~emitEvents,
         ~rotateShip,
         ~accelerateShip,
@@ -26,7 +25,6 @@ proc game(screenSize: ScreenSize, renderer: RendererPtr, assets: Assets, text: T
         ~checkWinOrLose,
         ~renderer,
     ],
-    [],
     newNecsusConf()
 ).}
 

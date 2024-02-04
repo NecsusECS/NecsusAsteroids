@@ -1,6 +1,10 @@
 import necsus, sdl2, ../text, ../assets, ../components, ../sdl2util, vmath
 
-proc splashScreen*(text: Shared[TextBuilder], spawn: Spawn[(Position, Renderable)], screen: Shared[ScreenSize]) =
+proc splashScreen*(
+    text: Shared[TextBuilder],
+    spawn: Spawn[(Position, Renderable)],
+    screen: Shared[ScreenSize]
+) {.startupSys.} =
     ## Creates text for the splash screen
     spawn.with(
         Position(center: vec2(screen.getOrRaise.width / 2, screen.getOrRaise.height / 2)),
