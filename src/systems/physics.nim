@@ -3,7 +3,7 @@ import necsus, ../components, ../sdl2util, options, vmath
 proc simulatePhysics*(dt: TimeDelta, query: Query[(ptr Position, Velocity)]) =
     ## Executes primitive physics simulation
     for (position, velocity) in query:
-        position.center += velocity.speed * dt
+        position.center += velocity.speed * dt()
 
 const WRAP_MARGIN = 20.0
 
@@ -36,4 +36,4 @@ proc edgeWrap*(
 proc rotation*(dt: TimeDelta, query: Query[(ptr Position, Rotating)]) =
     ## Applies rotation to an element
     for (pos, rotation) in query:
-        pos.angle += rotation.rotateSpeed * dt
+        pos.angle += rotation.rotateSpeed * dt()

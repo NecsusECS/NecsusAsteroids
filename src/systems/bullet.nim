@@ -13,7 +13,7 @@ proc shoot*(
 ) =
     ## Create a bullet when the spacebar is pressed
     template spawnBullet(start: Position) =
-        lastShot := time
+        lastShot := time()
         spawn.with(
             Bounds(kind: BoundsKind.Circle, radius: 4.0),
             Bullet(),
@@ -24,7 +24,7 @@ proc shoot*(
 
     for input in inputs:
         if input.kind == KeyDown and input.keysym.scancode == SDL_SCANCODE_SPACE:
-            if time - lastShot.get(-BULLET_SPEED) > BULLET_DELAY:
+            if time() - lastShot.get(-BULLET_SPEED) > BULLET_DELAY:
                 for (_, spawnPosition) in ship:
                     spawnBullet(spawnPosition)
 

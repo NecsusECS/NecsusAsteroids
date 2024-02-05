@@ -11,7 +11,7 @@ proc explosions*(
     delete: Delete,
 ) =
     for eid, comp in particles:
-        comp[0].ttl -= dt
+        comp[0].ttl -= dt()
         if comp[0].ttl < 0:
             delete(eid)
 

@@ -56,9 +56,9 @@ proc rotateShip*(
         case isRotating.get(NoRotate):
         of NoRotate: discard
         of RotateLeft:
-            pos.angle -= ROTATE_SPEED * dt
+            pos.angle -= ROTATE_SPEED * dt()
         of RotateRight:
-            pos.angle += ROTATE_SPEED * dt
+            pos.angle += ROTATE_SPEED * dt()
 
         pos.angle = if pos.angle < 0: 360.0 - pos.angle else: pos.angle mod 360.0
 
@@ -86,7 +86,7 @@ proc accelerateShip*(
 
     if isAccelerating.get(false):
         for (_, pos, vel) in ship:
-            vel.speed += pos.angleVector * (dt * ACCELERATION)
+            vel.speed += pos.angleVector * (dt() * ACCELERATION)
 
             # Cap out the max speed
             let speed = vel.speed.length
